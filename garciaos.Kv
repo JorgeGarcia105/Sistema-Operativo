@@ -1,0 +1,43 @@
+#:kivy
+
+# Definir el archivo KV
+
+# Asociar el archivo KV con la clase GarciaOSApp
+<GarciaOSApp>:
+
+    # Definir el widget BoxLayout
+    BoxLayout:
+
+        # Definir la orientación del BoxLayout
+        orientation: 'vertical'
+
+        # Definir el tamaño y la posición del BoxLayout
+        size: root.width, root.height
+        pos: root.x, root.y
+
+        # Definir el espaciado entre los widgets
+        spacing: 10
+
+        # Definir el relleno del BoxLayout
+        padding: 10
+
+        # Definir los widgets que contiene el BoxLayout
+        Label:
+            text: 'Bienvenido a GarciaOS'
+            font_size: 32
+            color: 1, 1, 1, 1
+        Button:
+            text: 'Iniciar sesión'
+            font_size: 24
+            background_color: 0, 0.5, 1, 1
+            on_press: app.login()
+        Button:
+            text: 'Registrarse'
+            font_size: 24
+            background_color: 0, 1, 0.5, 1
+            on_press: app.register()
+        Button:
+            text: 'Salir'
+            font_size: 24
+            background_color: 1, 0, 0, 1
+            on_press: app.exit()
