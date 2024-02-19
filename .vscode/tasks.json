@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Kernel",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-m32",
+                "-c",
+                "kernel.c",
+                "-o",
+                "kernel.o"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Link Kernel",
+            "type": "shell",
+            "command": "ld",
+            "args": [
+                "-m",
+                "elf_i386",
+                "-T",
+                "linker.ld",
+                "-o",
+                "kernel.bin",
+                "kernel.o"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe compilar archivo activo",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarea generada por el depurador."
+        }
+    ]
+}
