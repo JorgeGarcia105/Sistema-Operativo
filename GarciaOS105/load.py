@@ -12,6 +12,7 @@ class BIOSInterface:
         self.progress_bar.pack(pady=10)
 
         self.progress = 0
+
         self.load_bios()
 
     def load_bios(self):
