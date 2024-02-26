@@ -5,7 +5,7 @@ class LoginInterface:
         self.master = master
 
         self.users = {
-            "admin": "admin",
+            "Jorge": "jorge",
             "user": "user"
         }
 
