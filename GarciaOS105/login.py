@@ -41,6 +41,7 @@ class LoginInterface:
         self.login_button = tk.Button(self.login_frame, text="Iniciar sesión", command=self.validate_login)
         self.login_button.pack(pady=5)
 
+    # método que valida el login
     def validate_login(self):
         username = self.username.get()
         password = self.password.get()
