@@ -1,4 +1,4 @@
-# Proyecto Sistema Operativo "Nombre del Proyecto"
+# Proyecto Sistema Operativo "GarciaOS"
  - Descripción
 Este proyecto consiste en la creación de un sistema operativo desde cero, desarrollado como una iniciativa educativa y de aprendizaje. El sistema operativo se ha diseñado con la finalidad de explorar los conceptos fundamentales que subyacen a la operación de un sistema informático, incluyendo el proceso de arranque, autenticación de usuarios, gestión de archivos (CRUD), entre otros aspectos esenciales que se iran desarrollando en el tiempo.
 
