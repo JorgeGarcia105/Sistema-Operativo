@@ -39,7 +39,7 @@ int division(int arr[], int num) {
 }
 
 int main() {
-    char name[50];
+    char name[50] = Jorge;
     char password[50];
     char correct_password[] = "password123";
     int option;
