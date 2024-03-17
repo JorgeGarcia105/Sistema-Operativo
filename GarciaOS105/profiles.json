@@ -1,0 +1,18 @@
+{
+    "perfil1": {
+      "image": "./GarciaOS105/images/arranque.png",
+      "username": "Jorge",
+      "password": "user1"
+    },
+    "perfil2": {
+      "image": "./GarciaOS105/images/arranque.png",
+      "username": "Ivan",
+      "password": "user2"
+    },
+    "perfil3": {
+      "image": "./GarciaOS105/images/arranque.png",
+      "username": "Garcia",
+      "password": "user3"
+    }
+}
+  
