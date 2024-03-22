@@ -1,61 +1,136 @@
+from ctypes import alignment
 import sys
+import os
 import json
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QLabel, QPushButton, QLineEdit, QMessageBox, QVBoxLayout, QMainWindow
-from PyQt5.QtGui import QPixmap, QFont, QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QLabel, QPushButton, QLineEdit, QMessageBox, QVBoxLayout
+from PyQt5.QtGui import QPixmap, QFont, QBrush
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPalette
 
-# Parte 1: Clases de la ventana de selección de perfil y la ventana de inicio de sesión
+class ProfileSelectionWindow(QWidget):
+    # Ventana para seleccionar un perfil de una lista
+    def __init__(self, profiles):
+        # Inicialización de la ventana
+        super().__init__()
+        self.profiles = profiles
 
-class LoginWindow(QWidget):
+        # Ruta de la imagen de fondo
+        self.BACKGROUND_IMAGE_PATH = "./GarciaOS105/images/fondo.png"
+
+        # Configuración de la ventana principal
+        self.setWindowTitle("Selección de Perfil")
+        self.setGeometry(100, 100, 800, 600)
+
+        # Establecer la imagen de fondo
+        self.set_background_image()
+
+        # Diseño de la ventana principal
+        layout = QHBoxLayout()
+        layout.setAlignment(Qt.AlignCenter)
+
+        # Agregar widgets para cada perfil
+        for profile_name, profile_data in self.profiles.items():
+            profile_widget = ProfileWidget(profile_name, profile_data['image'], self, profile_data['username'], profile_data['password'])
+            layout.addWidget(profile_widget)
+
+        self.setLayout(layout)
+
+    # Método para abrir los datos de inicio de sesión para el perfil seleccionado
+    def open_login_window(self, profile_name, username, password):
+        self.login_widget = LoginWidget(profile_name, self.profiles[profile_name]['image'], username, password)
+        self.layout().addWidget(self.login_widget)
+        # mostrar solo datos de login
+        self.layout().itemAt(0).widget().hide()
+        self.layout().itemAt(1).widget().hide()
+        self.layout().itemAt(2).widget().hide()
+
+    # Método para establecer la imagen de fondo
+    def set_background_image(self, image_path=None):
+        if image_path is None:
+            image_path = self.BACKGROUND_IMAGE_PATH
+        palette = self.palette()
+        palette.setBrush(QPalette.Background, QBrush(QPixmap(image_path)))
+        self.setPalette(palette)
+
+
+class LoginWidget(QWidget):
+    # Widget para mostrar los datos de inicio de sesión del perfil seleccionado
     def __init__(self, profile_name, profile_image, username, password):
+        # Inicialización del widget
         super().__init__()
 
-        self.setWindowTitle("Inicio de Sesión")
-
+        # Configuración del widget
         self.profile_name = profile_name
         self.profile_image = profile_image
         self.expected_username = username
         self.expected_password = password
 
+        # Diseño del widget
         layout = QVBoxLayout()
         layout.setSpacing(5)
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(20, 10, 20, 10)
 
+        # Etiqueta de la imagen del perfil
         self.image_label = QLabel()
         pixmap = QPixmap(self.profile_image)
         self.image_label.setPixmap(pixmap.scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.SmoothTransformation))
         self.image_label.setAlignment(Qt.AlignCenter)
 
+        # Etiqueta del nombre del perfil
         self.name_label = QLabel(profile_name)
-        self.name_label.setFont(QFont("Arial", 16))
+        self.name_label.setFont(QFont("Arial", 14))
 
+        # Campo de entrada de nombre de usuario
+        username_layout = QVBoxLayout()
         self.username_label = QLabel("Nombre de Usuario:")
         self.username_entry = QLineEdit()
         self.username_entry.setText(self.expected_username)
+        self.username_entry.setMaximumWidth(200)  # Establecer una anchura máxima
+        username_layout.addWidget(self.username_label)
+        username_layout.addWidget(self.username_entry)
+
+        # Campo de entrada de contraseña
+        password_layout = QVBoxLayout()
         self.password_label = QLabel("Contraseña:")
         self.password_entry = QLineEdit()
         self.password_entry.setText(self.expected_password)
         self.password_entry.setEchoMode(QLineEdit.Password)
+        self.password_entry.setMaximumWidth(200)  # Establecer una anchura máxima
+        password_layout.addWidget(self.password_label)
+        password_layout.addWidget(self.password_entry)
 
+        # Alineación horizontal para centrar los campos de entrada
+        username_h_layout = QHBoxLayout()
+        username_h_layout.addStretch()
+        username_h_layout.addLayout(username_layout)
+        username_h_layout.addStretch()
+
+        password_h_layout = QHBoxLayout()
+        password_h_layout.addStretch()
+        password_h_layout.addLayout(password_layout)
+        password_h_layout.addStretch()
+
+        # Botón de inicio de sesión
         self.btn_login = QPushButton("Iniciar sesión")
         self.btn_login.clicked.connect(self.login)
         self.btn_login.setStyleSheet("QPushButton { background-color: #4CAF50; color: white; border: none; padding: 10px; font-size: 16px; }"
                                       "QPushButton:hover { background-color: #45a049; }")
 
+        # Etiqueta de error
         self.error_label = QLabel()
         self.error_label.setStyleSheet("color: red; font-size: 14px;")
 
+        # Agregar widgets al diseño
         layout.addWidget(self.image_label, alignment=Qt.AlignCenter)
         layout.addWidget(self.name_label, alignment=Qt.AlignCenter)
-        layout.addWidget(self.username_label)
-        layout.addWidget(self.username_entry)
-        layout.addWidget(self.password_label)
-        layout.addWidget(self.password_entry)
-        layout.addWidget(self.btn_login)
+        layout.addLayout(username_h_layout)
+        layout.addLayout(password_h_layout)
+        layout.addWidget(self.btn_login, alignment=Qt.AlignCenter)
         layout.addWidget(self.error_label, alignment=Qt.AlignCenter)
 
         self.setLayout(layout)
 
+    # Método para realizar el inicio de sesión
     def login(self):
         entered_username = self.username_entry.text()
         entered_password = self.password_entry.text()
@@ -68,26 +143,35 @@ class LoginWindow(QWidget):
             QMessageBox.information(self, "Inicio de Sesión", f"Inicio de sesión exitoso. ¡Bienvenido, {entered_username}!")
         else:
             self.error_label.setText("Error de inicio de sesión. Nombre de usuario o contraseña incorrectos.")
-
+        
 class ProfileWidget(QWidget):
-    def __init__(self, profile_name, profile_image, callback):
+    # Widget para mostrar un perfil y permitir su selección
+    def __init__(self, profile_name, profile_image, parent, username, password):
+        # Inicialización del widget
         super().__init__()
         self.profile_name = profile_name
         self.profile_image = profile_image
-        self.callback = callback
+        self.parent = parent
+        self.username = username
+        self.password = password
 
+        # Diseño del widget de perfil
         layout = QVBoxLayout()
         layout.setSpacing(5)
         layout.setContentsMargins(20, 20, 20, 20)
 
+        # Etiqueta de la imagen del perfil
         self.image_label = QLabel()
         pixmap = QPixmap(self.profile_image)
         self.image_label.setPixmap(pixmap.scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.SmoothTransformation))
         self.image_label.setAlignment(Qt.AlignCenter)
 
+        # Etiqueta del nombre del perfil
         self.name_label = QLabel(profile_name)
         self.name_label.setFont(QFont("Arial", 14))
+        self.name_label.setStyleSheet("color: white") 
 
+        # Botón de selección del perfil
         self.btn_select = QPushButton("Seleccionar")
         self.btn_select.clicked.connect(self.select_profile)
         self.btn_select.setStyleSheet("QPushButton { background-color: #008CBA; color: white; border: none; padding: 10px; font-size: 14px; }"
@@ -99,34 +183,17 @@ class ProfileWidget(QWidget):
 
         self.setLayout(layout)
 
+    # Método llamado cuando se selecciona un perfil
     def select_profile(self):
-        self.callback(self.profile_name)
-
-class ProfileSelectionWindow(QWidget):
-    def __init__(self, profiles):
-        super().__init__()
-        self.profiles = profiles
-
-        self.setWindowTitle("Selección de Perfil")
-        self.setGeometry(100, 100, 800, 600)
-
-        layout = QHBoxLayout()
-        layout.setAlignment(Qt.AlignCenter)
-
-        for profile_name, profile_data in self.profiles.items():
-            profile_widget = ProfileWidget(profile_name, profile_data['image'], self.open_login_window)
-            layout.addWidget(profile_widget)
-
-        self.setLayout(layout)
-
-    def open_login_window(self, profile_name):
-        profile_data = self.profiles[profile_name]
-        self.login_window = LoginWindow(profile_name, profile_data['image'], profile_data['username'], profile_data['password'])
-        self.login_window.show()
-
-# Parte 2: Cargar perfiles desde un archivo JSON y ejecutar la aplicación
-
+        self.parent.open_login_window(self.profile_name, self.username, self.password)
+        # Cambiar la imagen de fondo al seleccionar un perfil
+        self.parent.set_background_image(self.parent.profiles[self.profile_name]['background_image'])
 if __name__ == "__main__":
+    # Directorio de imágenes
+    IMAGES_DIR = "./GarciaOS105/images/"
+    BACKGROUND_IMAGE_PATH = os.path.join(IMAGES_DIR, "fondo.png")
+
+    # Cargar perfiles desde un archivo JSON y ejecutar la aplicación
     with open("./GarciaOS105/profiles.json", "r") as file:
         profiles = json.load(file)
 

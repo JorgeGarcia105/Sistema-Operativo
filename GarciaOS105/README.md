@@ -1,6 +1,8 @@
 # Registro de Actualizaciones
 
 - **19 de marzo de 2024**: Implementación inicial del código fuente.
+- **22 de marzo de 2024**: Se agregó la funcionalidad para cambiar la imagen de fondo al seleccionar un perfil en la ventana de selección de perfil.
+- **22 de marzo de 2024**: Se completó la documentación del código, incluyendo una descripción detallada de las clases y funcionalidades, así como la adición de una bitácora para registrar los cambios.
 
 # Inventario de Extensiones
 
@@ -19,7 +21,7 @@ No se ha integrado ninguna componente de inteligencia artificial en este proyect
 
 ## Parte 1: Clases de la Ventana de Selección de Perfil y la Ventana de Inicio de Sesión
 
-### `LoginWindow`:
+### `LoginWidget`:
 - Clase que define la ventana de inicio de sesión.
 - Permite a los usuarios iniciar sesión con un nombre de usuario y contraseña.
 
