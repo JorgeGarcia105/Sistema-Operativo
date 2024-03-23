@@ -26,7 +26,7 @@ class ProfileSelectionWindow(QWidget):
 
         # Diseño de la ventana principal
         layout = QHBoxLayout()
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Agregar widgets para cada perfil
         for profile_name, profile_data in self.profiles.items():
@@ -37,12 +37,25 @@ class ProfileSelectionWindow(QWidget):
 
     # Método para abrir los datos de inicio de sesión para el perfil seleccionado
     def open_login_window(self, profile_name, username, password):
+        # Crear el widget de inicio de sesión
         self.login_widget = LoginWidget(profile_name, self.profiles[profile_name]['image'], username, password)
-        self.layout().addWidget(self.login_widget)
-        # mostrar solo datos de login
-        self.layout().itemAt(0).widget().hide()
-        self.layout().itemAt(1).widget().hide()
-        self.layout().itemAt(2).widget().hide()
+        
+        # Obtener el layout actual o crear uno nuevo si no existe
+        layout = self.layout()
+        if layout is None:
+            layout = QVBoxLayout()
+            self.setLayout(layout)
+        
+        # Agregar el widget de inicio de sesión al layout
+        layout.addWidget(self.login_widget)
+        
+        # Ocultar los widgets de perfil existentes
+        for i in range(layout.count()):
+            widget_item = layout.itemAt(i)
+            if widget_item and widget_item.widget() != self.login_widget:
+                widget = widget_item.widget()
+                if widget:
+                    widget.setVisible(False)
 
     # Método para establecer la imagen de fondo
     def set_background_image(self, image_path=None):
@@ -73,8 +86,8 @@ class LoginWidget(QWidget):
         # Etiqueta de la imagen del perfil
         self.image_label = QLabel()
         pixmap = QPixmap(self.profile_image)
-        self.image_label.setPixmap(pixmap.scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.SmoothTransformation))
-        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setPixmap(pixmap.scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Etiqueta del nombre del perfil
         self.name_label = QLabel(profile_name)
@@ -121,12 +134,12 @@ class LoginWidget(QWidget):
         self.error_label.setStyleSheet("color: red; font-size: 14px;")
 
         # Agregar widgets al diseño
-        layout.addWidget(self.image_label, alignment=Qt.AlignCenter)
-        layout.addWidget(self.name_label, alignment=Qt.AlignCenter)
+        layout.addWidget(self.image_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.name_label, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addLayout(username_h_layout)
         layout.addLayout(password_h_layout)
-        layout.addWidget(self.btn_login, alignment=Qt.AlignCenter)
-        layout.addWidget(self.error_label, alignment=Qt.AlignCenter)
+        layout.addWidget(self.btn_login, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.error_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.setLayout(layout)
 
@@ -163,8 +176,8 @@ class ProfileWidget(QWidget):
         # Etiqueta de la imagen del perfil
         self.image_label = QLabel()
         pixmap = QPixmap(self.profile_image)
-        self.image_label.setPixmap(pixmap.scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.SmoothTransformation))
-        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setPixmap(pixmap.scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation )) #SmoothTransformation
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Etiqueta del nombre del perfil
         self.name_label = QLabel(profile_name)
@@ -177,9 +190,9 @@ class ProfileWidget(QWidget):
         self.btn_select.setStyleSheet("QPushButton { background-color: #008CBA; color: white; border: none; padding: 10px; font-size: 14px; }"
                                       "QPushButton:hover { background-color: #006699; }")
 
-        layout.addWidget(self.image_label, alignment=Qt.AlignCenter)
-        layout.addWidget(self.name_label, alignment=Qt.AlignCenter)
-        layout.addWidget(self.btn_select, alignment=Qt.AlignCenter)
+        layout.addWidget(self.image_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.name_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.btn_select, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.setLayout(layout)
 
