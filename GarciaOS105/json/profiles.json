@@ -7,13 +7,13 @@
     },
     "perfil2": {
       "image": "./GarciaOS105/images/arranque.png",
-      "background_image": "./GarciaOS105/images/perfil1.png",
+      "background_image": "./GarciaOS105/images/perfil2.png",
       "username": "Ivan",
       "password": "user2"
     },
     "perfil3": {
       "image": "./GarciaOS105/images/arranque.png",
-      "background_image": "./GarciaOS105/images/perfil1.png",
+      "background_image": "./GarciaOS105/images/perfil3.png",
       "username": "Garcia",
       "password": "user3"
     }
