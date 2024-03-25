@@ -133,14 +133,65 @@ class LoginWidget(QWidget):
         # Crear el botón de inicio de sesión
         self.btn_login = QPushButton("Iniciar sesión")
         self.btn_login.clicked.connect(self.login)
-        self.btn_login.setStyleSheet("background-color: #FF5733; color: white; border: 2px solid #FF5733; border-radius: 5px; padding: 10px; font-size: 16px;")
+        # Establecer estilos para el botón de inicio de sesión
+        self.btn_login.setStyleSheet("""
+            QPushButton {
+                background-color: #FF5733;
+                color: white;
+                border: 2px solid #FF5733;
+                border-radius: 5px;
+                padding: 10px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: #FF8C00;
+            }
+            QPushButton:pressed {
+                background-color: #FF4500;
+            }
+        """)
+        # Establecer el cursor al apuntar al botón de inicio de sesión
         self.btn_login.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        # Establecer estilos para el estado hover
+        self.btn_login.setStyleSheet(self.btn_login.styleSheet() +
+                                    "QPushButton:hover { background-color: #FF8C00; }")
+
+        # Establecer estilos para el estado pressed
+        self.btn_login.setStyleSheet(self.btn_login.styleSheet() +
+                                    "QPushButton:pressed { background-color: #FF4500; }")
 
         # Crear el botón de regreso
         self.btn_back = QPushButton("Regresar")
         self.btn_back.clicked.connect(self.go_back)
-        self.btn_back.setStyleSheet("background-color: #3498db; color: white; border: 2px solid #3498db; border-radius: 5px; padding: 10px; font-size: 16px;")
+        # Establecer estilos para el botón de regreso
+        self.btn_back.setStyleSheet("""
+            QPushButton {
+                background-color: #3498db;
+                color: white;
+                border: 2px solid #3498db;
+                border-radius: 5px;
+                padding: 10px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            QPushButton:pressed {
+                background-color: #1f618d;
+            }
+        """)
+        # Establecer el cursor al apuntar al botón de regreso
         self.btn_back.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        # Establecer estilos para el estado hover
+        self.btn_back.setStyleSheet(self.btn_back.styleSheet() +
+                                    "QPushButton:hover { background-color: #2980b9; }")
+
+        # Establecer estilos para el estado pressed
+        self.btn_back.setStyleSheet(self.btn_back.styleSheet() +
+                                    "QPushButton:pressed { background-color: #1f618d; }")
+
 
 
         # Crear la etiqueta de error
