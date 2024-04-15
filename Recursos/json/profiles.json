@@ -1,0 +1,21 @@
+{
+    "perfil1": {
+      "image": "./Recursos/images/arranque.png",
+      "username": "Jorge",
+      "password": "user1",
+      "background_image": "./Recursos/images/perfil1.png"
+    },
+    "perfil2": {
+      "image": "./Recursos/images/arranque.png",
+      "background_image": "./Recursos/images/perfil2.png",
+      "username": "Ivan",
+      "password": "user2"
+    },
+    "perfil3": {
+      "image": "./Recursos/images/arranque.png",
+      "background_image": "./Recursos/images/perfil3.png",
+      "username": "Garcia",
+      "password": "user3"
+    }
+}
+  

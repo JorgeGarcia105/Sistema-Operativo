@@ -11,7 +11,7 @@ class ProfileSelectionWindow(QWidget):
     def __init__(self, profiles):
         super().__init__()
         self.profiles = profiles
-        self.initial_background_image = "./GarciaOS105/images/fondo.png"  # Guardar la imagen de fondo inicial
+        self.initial_background_image = "./Recursos/images/fondo.png"  # Guardar la imagen de fondo inicial
         self.initial_profiles = profiles.copy()  # Guardar los perfiles iniciales
 
         # Configurar la ventana principal
@@ -291,7 +291,7 @@ if __name__ == "__main__":
         return os.path.join(base_path, relative_path)
 
     # Cargar los perfiles de usuario desde el archivo JSON
-    with open(resource_path('GarciaOS105/json/profiles.json'), 'r') as jsonfile:
+    with open(resource_path('./Recursos/json/profiles.json'), 'r') as jsonfile:
         profiles = json.load(jsonfile)
 
     # Crear la aplicación y la ventana de selección de perfil
