@@ -247,13 +247,7 @@ class MainApp(QMainWindow):
         file_manager_action = QAction("Explorador de Archivos", self)
         file_manager_action.triggered.connect(self.switch_file_manager_app)
 
-        # Crear barra de menú
-        menubar = self.menuBar()
-        apps_menu = menubar.addMenu("Aplicaciones")
-        apps_menu.addAction(audio_action)
-        apps_menu.addAction(video_action)
-        apps_menu.addAction(calculator_action)
-        apps_menu.addAction(file_manager_action)
+        # Crear barra de menu
 
         self.setCentralWidget(QLabel("Bienvenido a GarciaOS"))
 

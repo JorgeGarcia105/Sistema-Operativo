@@ -1,3 +1,6 @@
+
+from math import e, log
+from pdb import run
 import sys
 import os
 import json
@@ -5,6 +8,9 @@ from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QLabel, QPushBut
 from PyQt5.QtGui import QPixmap, QFont, QBrush
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QCursor
+from matplotlib.pyplot import cla
+
+
 
 # Clase de la ventana de selección de perfil
 class ProfileSelectionWindow(QWidget):
@@ -225,6 +231,9 @@ class LoginWidget(QWidget):
         # Verificar si el nombre de usuario y la contraseña son correctos
         if entered_username == self.expected_username and entered_password == self.expected_password:
             QMessageBox.information(self, "Inicio de Sesión", f"Inicio de sesión exitoso. ¡Bienvenido, {entered_username}!")
+            self.close()  # Cerrar la ventana de login después de iniciar sesión
+            # cerrar todo la ventana
+            self.parent_window.close()
         else:
             self.error_label.setText("Error de inicio de sesión. Nombre de usuario o contraseña incorrectos.")
 
@@ -281,7 +290,7 @@ class ProfileWidget(QWidget):
         self.parent.set_background_image(self.parent.profiles[self.profile_name]['background_image'])
 
 # Función principal para ejecutar la aplicación
-if __name__ == "__main__":
+def main():
     # Cargar los perfiles de usuario desde el archivo JSON  
     def resource_path(relative_path):
         try:
@@ -293,9 +302,15 @@ if __name__ == "__main__":
     # Cargar los perfiles de usuario desde el archivo JSON
     with open(resource_path('./Recursos/json/profiles.json'), 'r') as jsonfile:
         profiles = json.load(jsonfile)
-
-    # Crear la aplicación y la ventana de selección de perfil
+        
+   # Crear la aplicación y la ventana de selección de perfil
     app = QApplication(sys.argv)
     profile_window = ProfileSelectionWindow(profiles)
     profile_window.show()
+    profile_window.close()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
+

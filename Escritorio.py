@@ -1,3 +1,4 @@
+from math import log
 import sys
 import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QHBoxLayout, QVBoxLayout, QWidget, QPushButton
@@ -7,10 +8,10 @@ from Aplicaciones.BlockNotas import EditorTextoApp
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTimer
 
-class MiApp1(QMainWindow):
+class sesion(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Mi App 1")
+        self.setWindowTitle("Inicio de Sesion")
         self.setGeometry(100, 100, 400, 300)
         self.setCentralWidget(QLabel("Contenido de la App 1"))
 
@@ -27,12 +28,11 @@ class MiApp5(QMainWindow):
         self.setWindowTitle("Mi App 5")
         self.setGeometry(100, 100, 400, 300)
         self.setCentralWidget(QLabel("Contenido de la App 5"))
-
 class Escritorio(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Escritorio Simulado")
+        self.setWindowTitle("Escritorio")
         self.setGeometry(100, 100, 800, 500)
 
         # Configurar el fondo del escritorio
@@ -40,18 +40,16 @@ class Escritorio(QMainWindow):
         pixmap = QPixmap("./Recursos/images/fondo.png")  # Ruta de la imagen de fondo
         self.fondo_escritorio.setPixmap(pixmap)
         self.fondo_escritorio.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        # Crear íconos de aplicaciones en la barra de tareas con barra centrada
         
-
-
+        # Crear íconos de aplicaciones en la barra de tareas
         self.barra_tareas = QWidget()
         layout_barra_tareas = QHBoxLayout(self.barra_tareas)
         layout_barra_tareas.setSpacing(10)
         layout_barra_tareas.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout_barra_tareas.setContentsMargins(20, 0, 20, 0)
+
         btn_app1 = QPushButton("App 1", self)
-        btn_app1.clicked.connect(self.abrir_app1)
+        btn_app1.clicked.connect(self.abrir_sesion)
         layout_barra_tareas.addWidget(btn_app1)
 
         btn_app2 = QPushButton("App 2", self)
@@ -100,9 +98,9 @@ class Escritorio(QMainWindow):
         hora_actual = time.strftime("%H:%M:%S")
         self.reloj.setText(hora_actual)
 
-    def abrir_app1(self):
-        self.app1 = MiApp1()
-        self.app1.show()
+    def abrir_sesion(self):
+        self.sesion = sesion()
+        self.sesion.show()
 
     def abrir_app2(self):
         self.app2 = EditorTextoApp()

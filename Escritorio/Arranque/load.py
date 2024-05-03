@@ -1,5 +1,4 @@
 import tkinter as tk
-from login import LoginInterface
 
 class BIOSInterface:
     # Clase que representa la interfaz de la BIOS
@@ -37,4 +36,3 @@ class BIOSInterface:
     def load_login(self):
         self.progress_label.pack_forget()
         self.progress_bar.pack_forget()
-        LoginInterface(self.master)

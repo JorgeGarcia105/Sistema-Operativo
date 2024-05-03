@@ -3,12 +3,7 @@ from PIL import Image, ImageTk, ImageDraw
 from load import BIOSInterface
 
 def round_image(image_path, corner_radius):
-    """
-    Función para redondear una imagen con esquinas redondeadas.
-    :param image_path: Ruta de la imagen.
-    :param corner_radius: Radio de las esquinas redondeadas.
-    :return: Imagen redondeada.
-    """
+    
     img = Image.open(image_path).convert("RGBA")
     img = img.resize((400, 400))  # Cambiar el tamaño de la imagen
     circle = Image.new('L', (corner_radius * 2, corner_radius * 2), 0)
@@ -33,7 +28,7 @@ def main():
     background_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
 
     # Redondear la imagen de fondo
-    rounded_image = round_image("./GarciaOS105/images/arranque.png", 100)  # Ajustar el radio según tu preferencia
+    rounded_image = round_image("./Recursos/images/arranque.png", 100)  # Ajustar el radio según tu preferencia
 
     # Convertir la imagen redondeada para su uso en tkinter
     rounded_image_tk = ImageTk.PhotoImage(rounded_image)
