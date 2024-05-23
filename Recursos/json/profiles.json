@@ -1,21 +1,20 @@
 {
     "perfil1": {
-      "image": "./Recursos/images/arranque.png",
-      "username": "Jorge",
-      "password": "user1",
-      "background_image": "./Recursos/images/perfil1.png"
+        "image": "./Recursos/images/arranque.png",
+        "username": "Jorge",
+        "password": "gAAAAABmNRpDmtW8YDnektgcegfcT-gsMzgHMgfSIUFd8-N2VDG9s-ZFH2kH0WDsztrO3LdEwUH4odisRX6GzvrqErN4dodqhw==",
+        "background_image": "./Recursos/images/perfil1.png"
     },
     "perfil2": {
-      "image": "./Recursos/images/arranque.png",
-      "background_image": "./Recursos/images/perfil2.png",
-      "username": "Ivan",
-      "password": "user2"
+        "image": "./Recursos/images/arranque.png",
+        "background_image": "./Recursos/images/perfil2.png",
+        "username": "Ivan",
+        "password": "gAAAAABmNRpDpujLJwnQrNUQqdjt8ojihH2ZReN-7ChZQ9l4OjgkZOohVdFjAG80nPhnWUPnD7QFv1oYO0axUMqu-8x-k41g8g=="
     },
     "perfil3": {
-      "image": "./Recursos/images/arranque.png",
-      "background_image": "./Recursos/images/perfil3.png",
-      "username": "Garcia",
-      "password": "user3"
+        "image": "./Recursos/images/arranque.png",
+        "background_image": "./Recursos/images/perfil3.png",
+        "username": "Garcia",
+        "password": "gAAAAABmNRpDw8ziNa3-tzUs3VSw9o65CB9KKjP0HpRD37MSeImrb8zyHEMkB8aQiGDemJh6jH3mM77iWexXqBYVG1Hd9zXbfA=="
     }
 }
-  

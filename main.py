@@ -31,8 +31,6 @@ def profiles():
 def escritorio():
     app = QApplication(sys.argv)
     window = Escritorio()
-    window.setWindowTitle("Escritorio")
-    window.setGeometry(100, 100, 800, 500)
     window.show()
     sys.exit(app.exec_())
 

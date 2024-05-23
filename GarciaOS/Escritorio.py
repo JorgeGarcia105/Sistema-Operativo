@@ -1,3 +1,4 @@
+from email.mime import audio
 import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLabel, QVBoxLayout, QWidget, QPushButton, QLineEdit, QHBoxLayout
@@ -265,7 +266,7 @@ class MainApp(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
-    main_app = MainApp()
+    main_app = VideoApp()
     main_app.show()
     sys.exit(app.exec_())
 

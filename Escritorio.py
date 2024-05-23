@@ -1,47 +1,37 @@
 from math import log
 import sys
 import time
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QHBoxLayout, QVBoxLayout, QWidget, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QDesktopWidget, QGridLayout
 from PyQt5.QtGui import QPixmap, QIcon
 from Aplicaciones.calculadora import CalculatorApp
 from Aplicaciones.BlockNotas import EditorTextoApp
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QTimer
+from Aplicaciones.ReproductorVideo import VideoApp
+from PyQt5.QtCore import Qt, QTimer
 
-class sesion(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Inicio de Sesion")
-        self.setGeometry(100, 100, 400, 300)
-        self.setCentralWidget(QLabel("Contenido de la App 1"))
-
-class MiApp4(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Mi App 4")
-        self.setGeometry(100, 100, 400, 300)
-        self.setCentralWidget(QLabel("Contenido de la App 4"))
-
-class MiApp5(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Mi App 5")
-        self.setGeometry(100, 100, 400, 300)
-        self.setCentralWidget(QLabel("Contenido de la App 5"))
 class Escritorio(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("Escritorio")
-        self.setGeometry(100, 100, 800, 500)
 
+        # Ajustar la ventana para que ocupe toda la pantalla si es posible
+        desktop = QDesktopWidget()
+        screen_geometry = desktop.availableGeometry(desktop.primaryScreen())
+        if screen_geometry.isValid():
+            self.setGeometry(screen_geometry)
+        
         # Configurar el fondo del escritorio
         self.fondo_escritorio = QLabel(self)
         pixmap = QPixmap("./Recursos/images/fondo.png")  # Ruta de la imagen de fondo
         self.fondo_escritorio.setPixmap(pixmap)
         self.fondo_escritorio.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        # Crear íconos de aplicaciones en la barra de tareas
+        # Configurar el layout principal 
+        layout = QGridLayout()
+        layout.addWidget(self.fondo_escritorio, 0, 0, 1, 2)  # Añadir el fondo del escritorio en la fila 0, columnas 0 y 1
+        
+
+        # Añadir la barra de tareas a la cuadrícula
         self.barra_tareas = QWidget()
         layout_barra_tareas = QHBoxLayout(self.barra_tareas)
         layout_barra_tareas.setSpacing(10)
@@ -49,7 +39,7 @@ class Escritorio(QMainWindow):
         layout_barra_tareas.setContentsMargins(20, 0, 20, 0)
 
         btn_app1 = QPushButton("App 1", self)
-        btn_app1.clicked.connect(self.abrir_sesion)
+        btn_app1.clicked.connect(self.abrir_Video)
         layout_barra_tareas.addWidget(btn_app1)
 
         btn_app2 = QPushButton("App 2", self)
@@ -64,14 +54,7 @@ class Escritorio(QMainWindow):
         btn_app3.setIconSize(btn_app3.size())
         btn_app3.clicked.connect(self.abrir_app3)
         layout_barra_tareas.addWidget(btn_app3)
-
-        btn_app4 = QPushButton("App 4", self)
-        btn_app4.clicked.connect(self.abrir_app4)
-        layout_barra_tareas.addWidget(btn_app4)
-
-        btn_app5 = QPushButton("App 5", self)
-        btn_app5.clicked.connect(self.abrir_app5)
-        layout_barra_tareas.addWidget(btn_app5)
+        
 
         # Configurar el reloj
         self.reloj = QLabel("", self)
@@ -79,12 +62,9 @@ class Escritorio(QMainWindow):
         self.actualizar_reloj()
         layout_barra_tareas.addWidget(self.reloj)
 
-        # Añadir el fondo del escritorio y la barra de tareas al layout principal
-        layout = QVBoxLayout()
-        layout.addWidget(self.fondo_escritorio)
-        layout.addWidget(self.barra_tareas)
+        layout.addWidget(self.barra_tareas, 1, 0, 1, 2)  # Añadir la barra de tareas en la fila 1, columnas 0 y 1
 
-        # Crear el widget central y asignar el layout
+        # Establecer el layout principal en la ventana
         widget_central = QWidget(self)
         widget_central.setLayout(layout)
         self.setCentralWidget(widget_central)
@@ -98,8 +78,8 @@ class Escritorio(QMainWindow):
         hora_actual = time.strftime("%H:%M:%S")
         self.reloj.setText(hora_actual)
 
-    def abrir_sesion(self):
-        self.sesion = sesion()
+    def abrir_Video(self):
+        self.sesion = VideoApp()
         self.sesion.show()
 
     def abrir_app2(self):
@@ -109,14 +89,6 @@ class Escritorio(QMainWindow):
     def abrir_app3(self):
         self.calculadora_app = CalculatorApp()
         self.calculadora_app.show()
-
-    def abrir_app4(self):
-        self.app4 = MiApp4()
-        self.app4.show()
-
-    def abrir_app5(self):
-        self.app5 = MiApp5()
-        self.app5.show()
 
 def main():
     app = QApplication(sys.argv)

@@ -1,5 +1,6 @@
 
 from math import e, log
+from msilib.schema import Dialog
 from pdb import run
 import sys
 import os
@@ -9,11 +10,12 @@ from PyQt5.QtGui import QPixmap, QFont, QBrush
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QCursor
 from matplotlib.pyplot import cla
-
-
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QDialog
 
 # Clase de la ventana de selección de perfil
-class ProfileSelectionWindow(QWidget):
+# Clase de la ventana de selección de perfil
+class ProfileSelectionWindow(QDialog):
     def __init__(self, profiles):
         super().__init__()
         self.profiles = profiles
@@ -22,13 +24,17 @@ class ProfileSelectionWindow(QWidget):
 
         # Configurar la ventana principal
         self.setWindowTitle("Selección de Perfil")
-        self.setGeometry(100, 100, 800, 600)
         self.set_background_image()
 
         # Configurar el diseño de la ventana principal
         self.main_layout = QHBoxLayout()  # Renombrar self.layout a self.main_layout
         self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(self.main_layout)
+
+        # Ajustar la ventana para que ocupe toda la pantalla si es posible
+        screen_geometry = QApplication.desktop().availableGeometry() # type: ignore
+        if screen_geometry.isValid():
+            self.setGeometry(screen_geometry)
 
         self.populate_profile_widgets()
 
@@ -226,7 +232,7 @@ class LoginWidget(QWidget):
         # Verificar si el nombre de usuario y la contraseña están vacíos
         if entered_username == "" or entered_password == "":
             self.error_label.setText("Por favor, complete todos los campos.")
-            return
+            return 
 
         # Verificar si el nombre de usuario y la contraseña son correctos
         if entered_username == self.expected_username and entered_password == self.expected_password:
