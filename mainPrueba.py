@@ -1,28 +1,13 @@
-from calendar import c
 import sys
-import os
-import json
 from PyQt5.QtWidgets import QApplication
-from user_manager import UserManager
-from loginPrueba import LoginWidget, ProfileSelectionWindow
+from login import ProfileSelectionWindow
 from Escritorio import Escritorio
-# conectar la base de datos
-
-# Función para obtener la ruta del recurso, teniendo en cuenta el empaquetado con PyInstaller
-def resource_path(relative_path):
-    try:
-        base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+from BaseDatos.database import obtener_perfiles_de_usuario
 
 # Función principal que maneja la selección de perfiles
 def profiles():
-    user_manager = UserManager('./Recursos/json/users.json')
-
-    # Cargar los perfiles de usuario desde el archivo JSON
-    with open(resource_path('./Recursos/json/profiles.json'), 'r') as jsonfile:
-        profiles = json.load(jsonfile)
+    # Obtener los perfiles de usuario desde la base de datos
+    profiles = obtener_perfiles_de_usuario()
 
     # Crear la aplicación y la ventana de selección de perfil
     app = QApplication(sys.argv)

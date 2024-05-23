@@ -28,7 +28,7 @@ class BIOSInterface:
     def update_progress(self, message, progress):
         self.progress_bar.delete("progress")
         x = (progress / 10) * 300
-        self.progress_bar.create_rectangle(0, 0, x, 20, fill="blue", outline="", tag="progress")
+        self.progress_bar.create_rectangle(0, 0, x, 20, fill="blue", outline="", tag="progress") # type: ignore
         self.progress_label.config(text=f"{message} al {progress*10}%")
         self.master.update_idletasks()
 

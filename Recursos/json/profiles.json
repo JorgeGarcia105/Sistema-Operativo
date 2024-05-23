@@ -16,5 +16,11 @@
         "background_image": "./Recursos/images/perfil3.png",
         "username": "Garcia",
         "password": "gAAAAABmNRpDw8ziNa3-tzUs3VSw9o65CB9KKjP0HpRD37MSeImrb8zyHEMkB8aQiGDemJh6jH3mM77iWexXqBYVG1Hd9zXbfA=="
+    },
+    "perfil4": {
+        "image": null,
+        "background_image": null,
+        "username": "Jorge",
+        "password": "1010"
     }
 }
