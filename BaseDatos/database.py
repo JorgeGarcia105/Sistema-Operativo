@@ -111,15 +111,59 @@ def obtener_perfiles_de_usuario():
     except mysql.connector.Error as err:
         print(f"Error al obtener los perfiles de usuario: {err}")
         return None
+    
+def insertar_archivo_usuario(conexion, perfil_id, nombre_archivo, tipo_archivo):
+    try:
+        cursor = conexion.cursor()
+        sql = "INSERT INTO archivos_usuario (perfil_id, nombre_archivo, tipo_archivo) VALUES (%s, %s, %s)"
+        valores = (perfil_id, nombre_archivo, tipo_archivo)
+        cursor.execute(sql, valores)
+        conexion.commit()
+        print("Archivo insertado correctamente.")
+    except mysql.connector.Error as err:
+        print(f"Error al insertar archivo: {err}")
 
+def obtener_archivos_por_perfil(conexion, perfil_id):
+    try:
+        cursor = conexion.cursor()
+        sql = "SELECT nombre_archivo, tipo_archivo FROM archivos_usuario WHERE perfil_id = %s"
+        cursor.execute(sql, (perfil_id,))
+        archivos = []
+        for (nombre_archivo, tipo_archivo) in cursor:
+            archivos.append({'nombre': nombre_archivo, 'tipo': tipo_archivo})
+        return archivos
+    except mysql.connector.Error as err:
+        print(f"Error al obtener archivos del perfil: {err}")
+        return []
+
+def mostrar_archivos_por_perfil(conexion, perfil_id):
+    archivos = obtener_archivos_por_perfil(conexion, perfil_id)
+    if archivos:
+        print(f"Archivos del perfil {perfil_id}:")
+        for archivo in archivos:
+            print(f"Nombre: {archivo['nombre']}, Tipo: {archivo['tipo']}")
+    else:
+        print("No se encontraron archivos para este perfil.")
 
 def main():
     try:
         conexion = connect_to_database()
+        
+        # Insertar un perfil de ejemplo
         insertar_perfil("perfil1", "usuario1", "contrasena1", "./Recursos/images/perfil1.png", "./Recursos/images/perfil1.png")
-        profiles = obtener_perfiles_de_usuario()
-        print("Perfiles de usuario cargados:", profiles)
-        recuperar_imagen_perfil(conexion, "perfil1")
+
+        # Obtener el ID del perfil insertado
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id FROM perfiles WHERE nombre = 'perfil1'")
+        perfil_id = cursor.fetchone()[0] # type: ignore
+
+        # Insertar archivos asociados al perfil
+        insertar_archivo_usuario(conexion, perfil_id, "archivo1.txt", "Texto")
+        insertar_archivo_usuario(conexion, perfil_id, "archivo2.jpg", "Imagen")
+        insertar_archivo_usuario(conexion, perfil_id, "archivo3.mp4", "Video")
+
+        # Mostrar los archivos asociados al perfil
+        mostrar_archivos_por_perfil(conexion, perfil_id)
     except Error as e:
         print(f"Error en el programa: {e}")
     finally:
@@ -127,8 +171,7 @@ def main():
             conexion.close()
             print("Conexión cerrada.")
 
+
 if __name__ == "__main__":
     main()
-
-
 

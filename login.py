@@ -254,8 +254,7 @@ class ProfileWidget(QWidget):
 
     def select_profile(self):
         self.parent.open_login_window(self.profile_name, self.username, self.password)
-        self.parent.set_background_image(self.profile_image)
-
+        self.parent.set_background_image(self.parent.profiles[self.profile_name]['imagen_fondo'])
 
 # Función principal para ejecutar la aplicación
 def main():
@@ -283,14 +282,16 @@ def obtener_perfiles_de_usuario(conexion):
 
     for profile_data in cursor.fetchall():
         profile_name = profile_data[1]
-        profile_image_name = profile_data[2]  # Utiliza directamente el nombre de la imagen
-        profile_image_path = f"./Recursos/images/{profile_image_name}.png"  # Ruta donde deseas guardar la imagen
+        profile_image_name = profile_data[2] 
+        pofile_image_fondo = profile_data[5]
+        profile_image_path = f"./Recursos/images/{profile_image_name}.png"  
+        profile_image_fondo = f"./Recursos/images/{pofile_image_fondo}.png"
         if os.path.exists(profile_image_path):
             profiles[profile_name] = {
                 'image': profile_image_path,
-                'username': profile_data[3],  # Asegúrate de que sea el índice correcto para 'nombre_usuario'
-                'password': profile_data[4],  # Asegúrate de que sea el índice correcto para 'contrasena'
-                # Agrega otras propiedades según sea necesario
+                'username': profile_data[3], 
+                'password': profile_data[4], 
+                'imagen_fondo': profile_image_fondo,
             }
         else:
             print(f"La imagen {profile_image_path} no existe.")

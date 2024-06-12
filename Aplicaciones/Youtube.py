@@ -2,10 +2,10 @@ from PyQt5.QtWidgets import QVBoxLayout, QWidget
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
-class VideoApp(QWidget):
+class Youtube(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Video App")
+        self.setWindowTitle("Youtube")
 
         # Configura el diseño vertical
         layout = QVBoxLayout()

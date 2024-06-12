@@ -2,6 +2,7 @@
 import sys
 import os
 import json
+import mysql.connector
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QLabel, QPushButton, QLineEdit, QMessageBox, QVBoxLayout
 from PyQt5.QtGui import QPixmap, QFont, QBrush
 from PyQt5.QtCore import Qt
@@ -9,7 +10,9 @@ from PyQt5.QtGui import QPalette, QCursor
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDialog
 
-# Clase de la ventana de selección de perfil
+from BaseDatos.database import connect_to_database
+from Escritorio import Escritorio
+
 # Clase de la ventana de selección de perfil
 class ProfileSelectionWindow(QDialog):
     def __init__(self, profiles):
@@ -23,7 +26,7 @@ class ProfileSelectionWindow(QDialog):
         self.set_background_image()
 
         # Configurar el diseño de la ventana principal
-        self.main_layout = QHBoxLayout()  # Renombrar self.layout a self.main_layout
+        self.main_layout = QHBoxLayout()  
         self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(self.main_layout)
 
@@ -158,6 +161,31 @@ class LoginWidget(QWidget):
                 background-color: #FF4500;
             }
         """)
+
+         # Crear el botón para abrir la ventana de registro
+        self.btn_register = QPushButton("Crear nuevo usuario")
+        self.btn_register.clicked.connect(self.open_register_window)
+
+        # Establecer estilos para el botón de registro
+        self.btn_register.setStyleSheet("""
+            QPushButton {
+                background-color: #FF5733;
+                color: white;
+                border: 2px solid #FF5733;
+                border-radius: 5px;
+                padding: 10px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: #FF8C00;
+            }
+            QPushButton:pressed {
+                background-color: #FF4500;
+            }
+        """)
+        # Establecer el cursor al apuntar al botón de registro
+        self.btn_register.setCursor(QCursor(Qt.CursorShape.PointingHandCursor)) 
+        
         # Establecer el cursor al apuntar al botón de inicio de sesión
         self.btn_login.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
@@ -172,6 +200,11 @@ class LoginWidget(QWidget):
         # Crear el botón de regreso
         self.btn_back = QPushButton("Regresar")
         self.btn_back.clicked.connect(self.go_back)
+
+        # Crear el botón de registro
+        self.btn_register = QPushButton("Crear nuevo usuario")
+        self.btn_register.clicked.connect(self.open_register_window)
+
         # Establecer estilos para el botón de regreso
         self.btn_back.setStyleSheet("""
             QPushButton {
@@ -215,6 +248,7 @@ class LoginWidget(QWidget):
         layout.addWidget(self.btn_login, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.btn_back, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.error_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.btn_register, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Establecer el diseño del widget de inicio de sesión
         self.setLayout(layout)
@@ -236,6 +270,7 @@ class LoginWidget(QWidget):
             self.close()  # Cerrar la ventana de login después de iniciar sesión
             # cerrar todo la ventana
             self.parent_window.close()
+            self.open_desktop()
         else:
             self.error_label.setText("Error de inicio de sesión. Nombre de usuario o contraseña incorrectos.")
 
@@ -244,6 +279,101 @@ class LoginWidget(QWidget):
         self.close()
         self.parent_window.restore_initial_state()
         self.parent_window.show()
+
+    # Función para abrir el escritorio después del inicio de sesión exitoso
+    def open_desktop(self):
+        self.desktop = Escritorio(self.expected_username, self.expected_password)
+        self.desktop.show()
+
+    def open_register_window(self):
+        self.register_window = RegisterWindow(self)
+        self.register_window.show()
+
+# Fuera de la clase LoginWidget
+class RegisterWindow(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Registro de Nuevo Usuario")
+        self.setFixedSize(300, 200)
+
+        layout = QVBoxLayout()
+
+        self.username_label = QLabel("Nombre de Usuario:")
+        self.username_entry = QLineEdit()
+        layout.addWidget(self.username_label)
+        layout.addWidget(self.username_entry)
+
+        self.password_label = QLabel("Contraseña:")
+        self.password_entry = QLineEdit()
+        self.password_entry.setEchoMode(QLineEdit.Password)
+        layout.addWidget(self.password_label)
+        layout.addWidget(self.password_entry)
+
+        self.confirm_password_label = QLabel("Confirmar Contraseña:")
+        self.confirm_password_entry = QLineEdit()
+        self.confirm_password_entry.setEchoMode(QLineEdit.Password)
+        layout.addWidget(self.confirm_password_label)
+        layout.addWidget(self.confirm_password_entry)
+
+        self.btn_register = QPushButton("Registrar")
+        self.btn_register.clicked.connect(self.register)
+        layout.addWidget(self.btn_register)
+
+        self.error_label = QLabel()
+        self.error_label.setStyleSheet("color: red;")
+        layout.addWidget(self.error_label)
+
+        self.setLayout(layout)
+
+    def register(self):
+        # Validar que las contraseñas coincidan
+        if self.password_entry.text() != self.confirm_password_entry.text():
+            self.error_label.setText("Las contraseñas no coinciden.")
+            return
+
+        # Verificar si el nombre de usuario ya existe
+        if self.username_exists(self.username_entry.text()):
+            self.error_label.setText("El nombre de usuario ya está en uso.")
+            return
+
+        try:
+            # Conectar a la base de datos
+            conexion = connect_to_database()
+
+            # Insertar el nuevo usuario en la base de datos
+            cursor = conexion.cursor()
+            sql = "INSERT INTO perfiles (nombre_usuario, contrasena) VALUES (%s, %s)"
+            val = (self.username_entry.text(), self.password_entry.text())
+            cursor.execute(sql, val)
+            conexion.commit()
+            
+            QMessageBox.information(self, "Registro Exitoso", "El nuevo usuario ha sido registrado exitosamente.")
+            self.close()
+        except mysql.connector.Error as err:
+            print(f"Error al insertar el nuevo usuario: {err}")
+            self.error_label.setText("Error al registrar el nuevo usuario.")
+        finally:
+            if conexion:
+                conexion.close()
+
+
+    # Método para verificar si el nombre de usuario ya existe en la base de datos
+    # Método para verificar si el nombre de usuario ya existe en la base de datos
+    def username_exists(self, username):
+        try:
+            conexion = connect_to_database()
+            cursor = conexion.cursor()
+            sql = "SELECT COUNT(*) FROM perfiles WHERE nombre_usuario = %s"
+            cursor.execute(sql, (username))
+            count = cursor.fetchone()[0] # type: ignore
+            return count > 0 # type: ignore
+        except mysql.connector.Error as err:
+            print(f"Error al verificar el nombre de usuario: {err}")
+            return False
+        finally:
+            if conexion:
+                conexion.close()
+
 
 # Clase del widget de perfil
 class ProfileWidget(QWidget):
