@@ -1,14 +1,14 @@
-import sys
 import time
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QDesktopWidget
+from PyQt5.QtWidgets import QMainWindow, QLabel, QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QDesktopWidget, QMessageBox
 from PyQt5.QtGui import QPixmap, QIcon, QPalette, QBrush
 from PyQt5.QtCore import Qt, QTimer
 import pygame
+import mysql.connector
 from Aplicaciones.calculadora import CalculatorApp
 from Aplicaciones.BlockNotas import EditorTextoApp
 from Aplicaciones.ReproductorVideoAudio import VideoWindow as VideoApp
 from Aplicaciones.Youtube import Youtube
-from Aplicaciones.AministradorArchivos import ExploradorArchivos
+from Aplicaciones.AministradorArchivos import Archivos
 from Aplicaciones.Navegador import Navegador
 from Aplicaciones.juego import ALTO, ANCHO, JuegoAhorcado 
 
@@ -30,6 +30,32 @@ button_style = """
     }
 """
 
+# Conectar a la base de datos
+def connect_to_database():
+    try:
+        conexion = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='Jorge1002671250',
+            database='perfiles_usuarios'
+        )
+        return conexion
+    except mysql.connector.Error as err:
+        QMessageBox.critical(None, "Error de conexión", f"Error al conectar a la base de datos: {err}")
+        return None
+
+# Obtener archivos por perfil
+def obtener_archivos_por_perfil(conexion, perfil_id):
+    try:
+        cursor = conexion.cursor()
+        sql = "SELECT nombre_archivo FROM archivos WHERE perfil_id = %s"
+        cursor.execute(sql, (perfil_id,))
+        archivos = [archivo[0] for archivo in cursor.fetchall()]  # Obtener todos los nombres de archivos
+        return archivos
+    except mysql.connector.Error as err:
+        QMessageBox.critical(None, "Error de consulta", f"Error al obtener archivos del perfil: {err}")
+        return []
+
 class Escritorio(QMainWindow):
     def __init__(self, username, password):
         super().__init__()
@@ -40,7 +66,7 @@ class Escritorio(QMainWindow):
         self.setObjectName("mainWindow")
         
         # Configurar el fondo del escritorio
-        self.set_background_image("./Recursos/images/fondo.png")
+        self.set_background_image()
 
         # Configurar el layout principal
         layout = QVBoxLayout()
@@ -177,10 +203,42 @@ class Escritorio(QMainWindow):
         self.timer.timeout.connect(self.actualizar_reloj)
         self.timer.start(1000)
 
-    def set_background_image(self, image_path):
-        palette = QPalette()
-        palette.setBrush(QPalette.Background, QBrush(QPixmap(image_path)))
-        self.setPalette(palette)
+    def set_background_image(self):
+        try:
+            conexion = mysql.connector.connect(
+                host='localhost',
+                user='root',
+                password='Jorge1002671250',
+                database='perfiles_usuarios'
+            )
+            cursor = conexion.cursor()
+
+            # Obtener la ruta de la imagen de fondo del usuario que ha iniciado sesión
+            cursor.execute("SELECT imagen_fondo FROM perfiles WHERE nombre_usuario = %s", (self.username,))
+            resultado = cursor.fetchone()
+
+            if resultado and resultado[0]: # type: ignore
+                fondo_imagen = resultado[0] # type: ignore
+                print(f"Ruta de la imagen de fondo: {fondo_imagen}")  # Debugging: Verificar la ruta de la imagen
+
+                pixmap = QPixmap(fondo_imagen)
+                if not pixmap.isNull():
+                    palette = QPalette()
+                    palette.setBrush(QPalette.Background, QBrush(pixmap))
+                    self.setPalette(palette)
+                    print("Imagen de fondo cargada correctamente.")
+                else:
+                    print("La imagen de fondo no se pudo cargar.")
+            else:
+                print("No se encontró una imagen de fondo para este usuario.")
+
+            cursor.close()
+            conexion.close()
+        except mysql.connector.Error as err:
+            print(f"Error MySQL: {err}")
+        except Exception as ex:
+            print(f"Error general: {ex}")
+
 
     def actualizar_reloj(self):
         hora_actual = time.strftime("%H:%M:%S")
@@ -203,7 +261,7 @@ class Escritorio(QMainWindow):
         self.video_app.show()
 
     def abrir_Explorador(self):
-        self.explorador_app = ExploradorArchivos()
+        self.explorador_app = Archivos(self.username, self.password)
         self.explorador_app.show()
 
     def abrir_Navegador(self):
@@ -214,4 +272,5 @@ class Escritorio(QMainWindow):
         pantalla = pygame.display.set_mode((ANCHO, ALTO))  # Crear la pantalla de Pygame
         self.juego_app = JuegoAhorcado(pantalla)  # Pasar la pantalla como argumento
         self.juego_app.show()
+
 

@@ -2,8 +2,7 @@ import sys
 import os
 import json
 from PyQt5.QtWidgets import QApplication
-from user_manager import UserManager
-from loginPrueba import ProfileSelectionWindow
+from escriptPrueba import ProfileSelectionWindow
 # conectar la base de datos
 
 # Función para obtener la ruta del recurso, teniendo en cuenta el empaquetado con PyInstaller
@@ -16,7 +15,6 @@ def resource_path(relative_path):
 
 # Función principal que maneja la selección de perfiles
 def profiles():
-    user_manager = UserManager('./Recursos/json/users.json')
 
     # Cargar los perfiles de usuario desde el archivo JSON
     with open(resource_path('./Recursos/json/profiles.json'), 'r') as jsonfile:
