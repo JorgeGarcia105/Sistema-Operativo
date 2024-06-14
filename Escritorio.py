@@ -11,6 +11,7 @@ from Aplicaciones.Youtube import Youtube
 from Aplicaciones.AministradorArchivos import Archivos
 from Aplicaciones.Navegador import Navegador
 from Aplicaciones.juego import ALTO, ANCHO, JuegoAhorcado 
+from BaseDatos.database import Aplicacion
 
 # Estilo para los botones de la barra de tareas
 button_style = """
@@ -118,6 +119,16 @@ class Escritorio(QMainWindow):
         layout_barra_tareas.setContentsMargins(20, 10, 20, 10)
 
         layout_barra_tareas.addStretch()  # Espacio flexible a la izquierda
+
+        # Botón para cerrar sesión
+        btn_cerrar_sesion = QPushButton(self)
+        btn_cerrar_sesion.setFixedSize(80, 80)
+        pixmap_cerrar_sesion = QPixmap("./Recursos/icon/cerrar_sesion.png")
+        btn_cerrar_sesion.setIcon(QIcon(pixmap_cerrar_sesion))
+        btn_cerrar_sesion.setIconSize(btn_cerrar_sesion.size())
+        btn_cerrar_sesion.clicked.connect(self.cerrar_sesion)  # Conectar con la función de cerrar sesión
+        btn_cerrar_sesion.setStyleSheet(button_style)
+        layout_barra_tareas.addWidget(btn_cerrar_sesion)
 
         # Botones para las aplicaciones
         btn_youtube = QPushButton(self)
@@ -244,6 +255,13 @@ class Escritorio(QMainWindow):
         hora_actual = time.strftime("%H:%M:%S")
         self.reloj.setText(hora_actual)
 
+    def cerrar_sesion(self):
+        # Función para cerrar la sesión del usuario
+        # Aquí deberías cerrar todas las ventanas secundarias y realizar las acciones necesarias para finalizar la sesión
+        # Por ejemplo:
+        self.close()  # Cerrar la ventana principal
+        # Puedes añadir más acciones según sea necesario, como cerrar otras ventanas abiertas, etc.
+
     def abrir_Youtube(self):
         self.sesion = Youtube()
         self.sesion.show()
@@ -272,5 +290,3 @@ class Escritorio(QMainWindow):
         pantalla = pygame.display.set_mode((ANCHO, ALTO))  # Crear la pantalla de Pygame
         self.juego_app = JuegoAhorcado(pantalla)  # Pasar la pantalla como argumento
         self.juego_app.show()
-
-
