@@ -36,9 +36,8 @@ Este proyecto es una iniciativa educativa y de aprendizaje que busca crear un si
 
 Para compilar e instalar el sistema operativo en un entorno de desarrollo local o en una máquina virtual, sigue estos pasos:
 
-1. Clona el repositorio: `git clone https://github.com/tu_usuario/garciaos.git`
+1. Clona el repositorio: `git clone https://github.com/JorgeGarcia105/Sistema-Operativo.git`
 2. Accede al directorio del proyecto: `cd garciaos`
-3. [Incluye aquí instrucciones específicas sobre cómo configurar el entorno, compilar el código y ejecutar el sistema operativo en una máquina virtual o entorno de desarrollo.]
 
 ## Uso
 
@@ -47,7 +46,6 @@ Para utilizar el sistema operativo, sigue estos pasos:
 1. Inicia el sistema operativo desde el medio de almacenamiento o máquina virtual.
 2. En la pantalla de inicio, ingresa tus credenciales para acceder al sistema.
 3. Utiliza la interfaz de usuario para gestionar archivos, realizar cálculos científicos o reproducir archivos multimedia.
-4. [Incluye detalles adicionales sobre cómo utilizar las diferentes funcionalidades del sistema operativo.]
 
 ## Contribución
 
