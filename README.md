@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este proyecto es una iniciativa educativa y de aprendizaje que busca crear un sistema operativo desde cero. El objetivo principal es explorar los conceptos fundamentales que subyacen a la operación de un sistema informático. Se ha diseñado con la finalidad de comprender en detalle aspectos como el proceso de arranque, la autenticación de usuarios, la gestión de archivos (CRUD) y otros aspectos esenciales de un sistema operativo. A lo largo del desarrollo del proyecto, se irán agregando nuevas funcionalidades y características para mejorar la experiencia del usuario y profundizar en el conocimiento del funcionamiento interno de un sistema operativo.
+Este proyecto es una iniciativa educativa y de aprendizaje que busca crear un sistema operativo desde cero. El objetivo principal es explorar los conceptos fundamentales que subyacen a la operación de un sistema informático. Se ha diseñado con la finalidad de comprender en detalle aspectos como el proceso de arranque, la autenticación de usuarios, la gestión de archivos (CRUD) y otros aspectos esenciales de un sistema operativo. A lo largo del desarrollo del proyecto, se han implementado diversas funcionalidades para mejorar la experiencia del usuario y profundizar en el conocimiento del funcionamiento interno de un sistema operativo.
 
 ## Características Principales
 
@@ -24,24 +24,13 @@ Este proyecto es una iniciativa educativa y de aprendizaje que busca crear un si
 - Implementación de la ventana de selección de perfil.
 - Desarrollo de la ventana de inicio de sesión.
 - Funcionalidad para cambiar la imagen de fondo al seleccionar un perfil.
-
-### En Proceso
-
-- Integración de funcionalidades adicionales relacionadas con la gestión de archivos, autenticación de usuarios y mejora de la interfaz de usuario.
-- Evaluación de tecnologías adicionales para el desarrollo del sistema operativo.
-
-### Por Realizar
-
-- **Audio**: Implementación de un reproductor de audio para diversos formatos.
-- **Video**: Implementación de un reproductor de video para diversos formatos.
-- **Calculadora Científica**: Desarrollo de una calculadora avanzada.
-- **Gestión de Puestos de Entrada y Salida**: Implementación de mecanismos para la gestión de dispositivos de entrada y salida.
+- Implementación completa de funcionalidades de autenticación, gestión de archivos, y reproductores de audio y video.
+- Desarrollo de la calculadora científica y prueba exhaustiva de todas las características.
 
 ## Herramientas Utilizadas
 
 - **Lenguaje de Programación**: Python.
 - **Herramientas de Desarrollo**: Assembler, emuladores (VirtualBox o QEMU) y herramientas de depuración.
-- **Entorno de Desarrollo Integrado (IDE)**: [Especifica el IDE utilizado, si corresponde].
 
 ## Instalación
 
@@ -49,7 +38,7 @@ Para compilar e instalar el sistema operativo en un entorno de desarrollo local 
 
 1. Clona el repositorio: `git clone https://github.com/tu_usuario/garciaos.git`
 2. Accede al directorio del proyecto: `cd garciaos`
-3. [Incluye aquí instrucciones específicas sobre cómo configurar el entorno, compilar el código y ejecutar el sistema operativo en una máquina virtual o entorno de desarrollo].
+3. [Incluye aquí instrucciones específicas sobre cómo configurar el entorno, compilar el código y ejecutar el sistema operativo en una máquina virtual o entorno de desarrollo.]
 
 ## Uso
 
@@ -58,7 +47,7 @@ Para utilizar el sistema operativo, sigue estos pasos:
 1. Inicia el sistema operativo desde el medio de almacenamiento o máquina virtual.
 2. En la pantalla de inicio, ingresa tus credenciales para acceder al sistema.
 3. Utiliza la interfaz de usuario para gestionar archivos, realizar cálculos científicos o reproducir archivos multimedia.
-4. [Incluye detalles adicionales sobre cómo utilizar las diferentes funcionalidades del sistema operativo].
+4. [Incluye detalles adicionales sobre cómo utilizar las diferentes funcionalidades del sistema operativo.]
 
 ## Contribución
 
@@ -76,4 +65,4 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE)
 
 ## Contacto
 
-Para cualquier pregunta o comentario, puedes contactarme en [tu-email@dominio.com](mailto:tu-email@dominio.com).
+Para cualquier pregunta o comentario, puedes contactarme en [jorge.garcia5887@ucaldas.edu.co](mailto:jorge.garcia5887@ucaldas.edu.co).
